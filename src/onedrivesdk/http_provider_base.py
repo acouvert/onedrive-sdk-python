@@ -66,3 +66,19 @@ class HttpProviderBase(object):
                 The response to the request
         """
         pass
+
+    @abc.abstractmethod
+    def download_chunk(self, headers, url, buffer):
+        """Downloads part of a file to the stated buffer.
+
+        Args:
+            headers (dict of (str, str)): A dictionary of name-value
+                pairs to be used as headers in the request
+            url (str): The URL from which to download the file
+            args[0] (bytes): The buffer to contain the downloaded chunk
+
+        Returns:
+            :class:`HttpResponse<onedrivesdk.http_response.HttpResponse>`:
+                The response to the request
+        """
+        pass

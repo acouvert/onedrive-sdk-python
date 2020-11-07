@@ -172,7 +172,7 @@ class RequestBase(object):
 
         Returns:
             :class:`HttpResponse<onedrivesdk.http_response.HttpResponse>`:
-                The response to the request 
+                The response to the request
         """
         self._client.auth_provider.authenticate_request(self)
 
@@ -186,6 +186,37 @@ class RequestBase(object):
             self._headers,
             self.request_url,
             path)
+
+        return response
+
+    def download_chunk_item(self, offset, length, args):
+        """Downloads part of a file to a buffer.
+
+        Args:
+            offset (nb): The offset from where to start the download
+            length (nb): The max length of data to download
+            args[0] (bytes): The buffer to contain the downloaded chunk
+
+
+        Returns:
+            :class:`HttpResponse<onedrivesdk.http_response.HttpResponse>`:
+                The response to the request
+        """
+        self._client.auth_provider.authenticate_request(self)
+
+        self.append_option(HeaderOption("X-RequestStats",
+                                        "SDK-Version=python-v"+__version__))
+
+        self.append_option(HeaderOption("Range",
+                                        "bytes={}-{}".format(offset, offset + length - 1)))
+
+        if self.content_type:
+            self.append_option(HeaderOption("Content-Type", self.content_type))
+
+        response = self._client.http_provider.download_chunk(
+            self._headers,
+            self.request_url,
+            args)
 
         return response
 

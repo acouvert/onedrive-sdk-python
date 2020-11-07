@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 '''
 # Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
-# 
+#
 #  This file was generated and any changes will be overwritten.
 '''
 
@@ -60,7 +60,7 @@ class ItemRequestBuilder(RequestBuilderBase):
         yield from self.request().delete_async()
     def get(self):
         """Gets the specified Item.
-        
+
         Returns:
             :class:`Item<onedrivesdk.model.item.Item>`:
                 The Item.
@@ -79,7 +79,7 @@ class ItemRequestBuilder(RequestBuilderBase):
         return entity
     def update(self, item):
         """Updates the specified Item.
-        
+
         Args:
             item (:class:`Item<onedrivesdk.model.item.Item>`):
                 The Item to update.
@@ -93,7 +93,7 @@ class ItemRequestBuilder(RequestBuilderBase):
     @asyncio.coroutine
     def update_async(self, item):
         """Updates the specified Item in async
-        
+
         Args:
             item (:class:`Item<onedrivesdk.model.item.Item>`):
                 The Item to update.
@@ -107,11 +107,11 @@ class ItemRequestBuilder(RequestBuilderBase):
 
     def upload(self, local_path):
         """Uploads the file using PUT
-        
+
         Args:
             local_path (str): The path to the local file to upload.
 
-        Returns: 
+        Returns:
             The created entity.
         """
         return self.content.request().upload(local_path)
@@ -119,7 +119,7 @@ class ItemRequestBuilder(RequestBuilderBase):
     @asyncio.coroutine
     def upload_async(self, local_path):
         """Uploads the file using PUT in async
-        
+
         Args:
             local_path (str): The path to the local file to upload.
 
@@ -148,11 +148,38 @@ class ItemRequestBuilder(RequestBuilderBase):
         entity = yield from self.content.request().download_async(local_path)
         return entity
 
+    def download_chunk(self, offset, length, args):
+        """Downloads part of the specified Item.
+
+        Args:
+            offset (nb): The offset from where to start the download
+            length (nb): The max length of data to download
+            args[0] (bytes): The buffer to contain the downloaded chunk
+
+
+        Returns:
+            :class:`HttpResponse<onedrivesdk.http_response.HttpResponse>`:
+                The response to the request
+        """
+        return self.content.request().download_chunk(offset, length, args)
+
+    @asyncio.coroutine
+    def download_chunk_async(self, offset, length, args):
+        """Downloads part of the specified Item in async.
+
+        Args:
+            offset (nb): The offset from where to start the download
+            length (nb): The max length of data to download
+            args[0] (bytes): The buffer to contain the downloaded chunk
+        """
+        entity = yield from self.content.request().download_chunk_async(offset, length, args)
+        return entity
+
     @property
     def permissions(self):
         """The permissions for the ItemRequestBuilder
 
-        Returns: 
+        Returns:
             :class:`PermissionsCollectionRequestBuilder<onedrivesdk.request.permissions_collection.PermissionsCollectionRequestBuilder>`:
                 A request builder created from the ItemRequestBuilder
         """
@@ -162,7 +189,7 @@ class ItemRequestBuilder(RequestBuilderBase):
     def subscriptions(self):
         """The subscriptions for the ItemRequestBuilder
 
-        Returns: 
+        Returns:
             :class:`SubscriptionsCollectionRequestBuilder<onedrivesdk.request.subscriptions_collection.SubscriptionsCollectionRequestBuilder>`:
                 A request builder created from the ItemRequestBuilder
         """
@@ -172,7 +199,7 @@ class ItemRequestBuilder(RequestBuilderBase):
     def versions(self):
         """The versions for the ItemRequestBuilder
 
-        Returns: 
+        Returns:
             :class:`VersionsCollectionRequestBuilder<onedrivesdk.request.versions_collection.VersionsCollectionRequestBuilder>`:
                 A request builder created from the ItemRequestBuilder
         """
@@ -182,7 +209,7 @@ class ItemRequestBuilder(RequestBuilderBase):
     def children(self):
         """The children for the ItemRequestBuilder
 
-        Returns: 
+        Returns:
             :class:`ChildrenCollectionRequestBuilder<onedrivesdk.request.children_collection.ChildrenCollectionRequestBuilder>`:
                 A request builder created from the ItemRequestBuilder
         """
@@ -192,7 +219,7 @@ class ItemRequestBuilder(RequestBuilderBase):
     def tags(self):
         """The tags for the ItemRequestBuilder
 
-        Returns: 
+        Returns:
             :class:`TagsCollectionRequestBuilder<onedrivesdk.request.tags_collection.TagsCollectionRequestBuilder>`:
                 A request builder created from the ItemRequestBuilder
         """
@@ -202,7 +229,7 @@ class ItemRequestBuilder(RequestBuilderBase):
     def thumbnails(self):
         """The thumbnails for the ItemRequestBuilder
 
-        Returns: 
+        Returns:
             :class:`ThumbnailsCollectionRequestBuilder<onedrivesdk.request.thumbnails_collection.ThumbnailsCollectionRequestBuilder>`:
                 A request builder created from the ItemRequestBuilder
         """
@@ -212,7 +239,7 @@ class ItemRequestBuilder(RequestBuilderBase):
     def content(self):
         """The content for the ItemRequestBuilder
 
-        Returns: 
+        Returns:
             :class:`ItemContentRequestBuilder<onedrivesdk.request.item_content.ItemContentRequestBuilder>`:
                 A request builder created from the ItemRequestBuilder
         """
@@ -235,7 +262,7 @@ class ItemRequestBuilder(RequestBuilderBase):
 
         Args:
             name (str):
-                The name to use in the method request          
+                The name to use in the method request
             parent_reference (:class:`ItemReference<onedrivesdk.model.item_reference.ItemReference>`):
                 Defaults to None, The parent_reference to use in the method request
 
@@ -250,7 +277,7 @@ class ItemRequestBuilder(RequestBuilderBase):
 
         Args:
             type (str):
-                The type to use in the method request          
+                The type to use in the method request
 
         Returns:
             :class:`ItemCreateLinkRequestBuilder<onedrivesdk.request.item_create_link.ItemCreateLinkRequestBuilder>`:
@@ -263,15 +290,15 @@ class ItemRequestBuilder(RequestBuilderBase):
 
         Args:
             require_sign_in (bool):
-                The require_sign_in to use in the method request          
+                The require_sign_in to use in the method request
             roles (str):
-                The roles to use in the method request          
+                The roles to use in the method request
             recipients (:class:`Recipients<onedrivesdk.model.recipients.Recipients>`):
                 The recipients to use in the method request
             send_invitation (bool):
-                The send_invitation to use in the method request          
+                The send_invitation to use in the method request
             message (str):
-                The message to use in the method request          
+                The message to use in the method request
 
         Returns:
             :class:`ItemInviteRequestBuilder<onedrivesdk.request.item_invite.ItemInviteRequestBuilder>`:
@@ -284,7 +311,7 @@ class ItemRequestBuilder(RequestBuilderBase):
 
         Args:
             token (str):
-                The token to use in the method request          
+                The token to use in the method request
 
         Returns:
             :class:`ItemDeltaRequestBuilder<onedrivesdk.request.item_delta.ItemDeltaRequestBuilder>`:
@@ -297,7 +324,7 @@ class ItemRequestBuilder(RequestBuilderBase):
 
         Args:
             q (str):
-                The q to use in the method request          
+                The q to use in the method request
 
         Returns:
             :class:`ItemSearchRequestBuilder<onedrivesdk.request.item_search.ItemSearchRequestBuilder>`:

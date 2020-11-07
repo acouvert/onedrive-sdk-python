@@ -1,17 +1,17 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 '''
 # Copyright (c) 2015 Microsoft Corporation
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,7 +19,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-# 
+#
 #  This file was generated and any changes will be overwritten.
 '''
 
@@ -46,12 +46,12 @@ class ItemContentRequest(RequestBase):
 
     def upload(self, content_local_path):
         """Uploads the file using PUT
-        
+
         Args:
             content_local_path (str):
                 The path to the local file to upload.
 
-        Returns: 
+        Returns:
             :class:`Item<onedrivesdk.model.item.Item>`:
                 The created Item.
         """
@@ -63,12 +63,12 @@ class ItemContentRequest(RequestBase):
     @asyncio.coroutine
     def upload_async(self, content_local_path):
         """Uploads the file using PUT in async
-        
+
         Args:
-            content_local_path (str): 
+            content_local_path (str):
                 The path to the local file to upload.
 
-        Yields: 
+        Yields:
             :class:`Item<onedrivesdk.model.item.Item>`:
                 The created Item.
         """
@@ -80,7 +80,7 @@ class ItemContentRequest(RequestBase):
 
     def download(self, content_local_path):
         """Downloads the specified Item.
-        
+
         Args:
             content_local_path (str):
                 The path where the Item should be downloaded to
@@ -91,7 +91,7 @@ class ItemContentRequest(RequestBase):
     def download_async(self, content_local_path):
         """
         Downloads the specified Item in async.
-        
+
         Args:
             content_local_path (str):
                 The path where the Item should be downloaded to
@@ -101,11 +101,35 @@ class ItemContentRequest(RequestBase):
                                                     content_local_path)
         yield from future
 
+    def download_chunk(self, offset, length, args):
+        """Downloads part of the specified Item.
+
+        Args:
+            offset (nb): The offset from where to start the download
+            length (nb): The max length of data to download
+            args[0] (bytes): The buffer to contain the downloaded chunk
+        """
+        self.download_chunk_item(offset, length, args)
+
+    @asyncio.coroutine
+    def download_chunk_async(self, content_local_path):
+        """Downloads part of the specified Item in async.
+
+        Args:
+            offset (nb): The offset from where to start the download
+            length (nb): The max length of data to download
+            args[0] (bytes): The buffer to contain the downloaded chunk
+        """
+        future = self._client._loop.run_in_executor(None,
+                                                    self.download_chunk_item,
+                                                    offset, length, args)
+        yield from future
+
 class ItemContentRequestBuilder(RequestBuilderBase):
 
     def __init__(self, request_url, client):
         """Initialize the ItemContentRequestBuilder
-        
+
         Args:
             request_url (str): The request URL to initialize
                 the ItemContentRequestBuilder at

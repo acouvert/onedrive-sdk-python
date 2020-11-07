@@ -28,6 +28,12 @@ from .http_response import HttpResponse
 
 
 class HttpProvider(HttpProviderBase):
+    __session = None
+
+    def session(self):
+        if self.__session == None:
+            self.__session = requests.Session()
+        return self.__session
 
     def send(self, method, headers, url, data=None, content=None, path=None):
         """Send the built request using all the specified
@@ -49,6 +55,7 @@ class HttpProvider(HttpProviderBase):
             :class:`HttpResponse<onedrivesdk.http_response.HttpResponse>`:
                 The response to the request
         """
+        print('[http]', 'send', method, url)
         session = requests.Session()
 
         if path:
@@ -95,6 +102,33 @@ class HttpProvider(HttpProviderBase):
                     if chunk:
                         f.write(chunk)
                         f.flush()
+            custom_response = HttpResponse(response.status_code, response.headers, None)
+        else:
+            custom_response = HttpResponse(response.status_code, response.headers, response.text)
+
+        return custom_response
+
+    def download_chunk(self, headers, url, args):
+        """Downloads part of a file to the stated buffer.
+
+        Args:
+            headers (dict of (str, str)): A dictionary of name-value
+                pairs to be used as headers in the request
+            url (str): The URL from which to download the file
+            args[0] (bytes): The buffer to contain the downloaded chunk
+
+        Returns:
+            :class:`HttpResponse<onedrivesdk.http_response.HttpResponse>`:
+                The response to the request
+        """
+        print('[http]', 'download_chunk', url)
+        response = self.session().get(
+            url,
+            stream=False,
+            headers=headers)
+
+        if response.status_code == 206:
+            args[0] = response.content
             custom_response = HttpResponse(response.status_code, response.headers, None)
         else:
             custom_response = HttpResponse(response.status_code, response.headers, response.text)
