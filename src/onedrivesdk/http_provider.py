@@ -55,7 +55,7 @@ class HttpProvider(HttpProviderBase):
             :class:`HttpResponse<onedrivesdk.http_response.HttpResponse>`:
                 The response to the request
         """
-        print('[http]', 'send', method, url)
+        #print('[http]', 'send', method, url)
         session = requests.Session()
 
         if path:
@@ -121,7 +121,7 @@ class HttpProvider(HttpProviderBase):
             :class:`HttpResponse<onedrivesdk.http_response.HttpResponse>`:
                 The response to the request
         """
-        print('[http]', 'download_chunk', url)
+        #print('[http]', 'download_chunk', url)
         response = self.session().get(
             url,
             stream=False,
