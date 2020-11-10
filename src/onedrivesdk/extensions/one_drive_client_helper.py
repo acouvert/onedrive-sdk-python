@@ -25,7 +25,7 @@ from ..request.one_drive_client import OneDriveClient
 from ..request.drive_request_builder import DriveRequestBuilder
 
 
-def item(self, drive=None, id=None, path=None):
+def item(self, drive=None, id=None, path=None, select=None):
     """Gets an item given the specified (optional) drive,
     (optional) id, and (optional) path
 
@@ -33,6 +33,7 @@ def item(self, drive=None, id=None, path=None):
         drive (str): The drive that you want to use
         id (str): The id of the item to request
         path (str): The path of the item to request
+        select (str): The select query string parameter
 
     Returns:
         :class:`ItemRequestBuilder<onedrivesdk.requests.item_request_builder.ItemRequestBuilder>`:
@@ -46,7 +47,7 @@ def item(self, drive=None, id=None, path=None):
     drive_builder = self.drives[drive] if drive else self.drive
 
     if path:
-        return drive_builder.item_by_path(path)
+        return drive_builder.item_by_path(path, select)
     elif id:
         return drive_builder.items[id]
 
@@ -55,7 +56,7 @@ def item(self, drive=None, id=None, path=None):
 def drive(self):
     """Gets the user's default drive
 
-    Returns: 
+    Returns:
         :class:`DriveRequestBuilder<onedrivesdk.requests.drive_request_builder.DriveRequestBuilder>`:
             User's default drive
     """
